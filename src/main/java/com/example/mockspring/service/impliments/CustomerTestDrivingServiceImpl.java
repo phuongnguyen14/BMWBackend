@@ -2,9 +2,12 @@ package com.example.mockspring.service.impliments;
 
 import com.example.mockspring.entity.Car;
 import com.example.mockspring.entity.CustomerTestDriving;
+import com.example.mockspring.form.customerTestDriving.CreateTestDrivingForm;
+import com.example.mockspring.form.customerTestDriving.UpdateTestDrivingForm;
 import com.example.mockspring.repository.CustomerTestDrivingRepository;
 import com.example.mockspring.repository.ICarRepository;
 import com.example.mockspring.service.CustomerTestDrivingService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,22 +25,33 @@ public class CustomerTestDrivingServiceImpl implements CustomerTestDrivingServic
     @Autowired
     private ICarRepository carRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     public Page<CustomerTestDriving> getAllCustomerTestDrivings(Pageable pageable) {
         return customerTestDrivingRepository.findAll(pageable);
     }
     @Override
-    public CustomerTestDriving saveCustomerTestDriving(CustomerTestDriving customerTestDriving) {
-        Optional<Car> optionalCar = carRepository.findByName(customerTestDriving.getCar().getName());
-
+    public CustomerTestDriving createCustomerTestDriving(CreateTestDrivingForm form) {
+        // Assume carId is a valid identifier for Car
+        Optional<Car> optionalCar = carRepository.findByName(form.getCarName());
         if (optionalCar.isPresent()) {
-            customerTestDriving.setCar(optionalCar.get());
+            Car car = optionalCar.get();
+
+            CustomerTestDriving customerTestDriving = new CustomerTestDriving();
+            customerTestDriving.setFullName(form.getFullName());
+            customerTestDriving.setPhoneNumber(form.getPhoneNumber());
+            customerTestDriving.setDateTestDriving(form.getDateTestDriving());
+            customerTestDriving.setCar(car);
+
             return customerTestDrivingRepository.save(customerTestDriving);
         } else {
-            // Handle the case where Car is not found
+            // Handle the case when Car with given name is not found
             return null;
         }
     }
+
 
     @Override
     public CustomerTestDriving getCustomerTestDrivingById(int id) {
@@ -46,31 +60,36 @@ public class CustomerTestDrivingServiceImpl implements CustomerTestDrivingServic
     }
 
 
-
     @Override
-    public CustomerTestDriving updateCustomerTestDriving(int id, CustomerTestDriving updatedCustomerTestDriving) {
-        Optional<CustomerTestDriving> optionalExistingCustomerTestDriving = customerTestDrivingRepository.findById(id);
+    public CustomerTestDriving updateCustomerTestDriving(int id, UpdateTestDrivingForm form) {
+        Optional<CustomerTestDriving> optionalEntity = customerTestDrivingRepository.findById(id);
 
-        if (optionalExistingCustomerTestDriving.isPresent()) {
-            CustomerTestDriving existingCustomerTestDriving = optionalExistingCustomerTestDriving.get();
-            existingCustomerTestDriving.setFullName(updatedCustomerTestDriving.getFullName());
-            existingCustomerTestDriving.setPhoneNumber(updatedCustomerTestDriving.getPhoneNumber());
-            existingCustomerTestDriving.setDateTestDriving(updatedCustomerTestDriving.getDateTestDriving());
+        if (optionalEntity.isPresent()) {
+            CustomerTestDriving existingEntity = optionalEntity.get();
 
-            Optional<Car> optionalCar = Optional.ofNullable(updatedCustomerTestDriving.getCar())
-                    .flatMap(car -> carRepository.findByName(car.getName()));
+            // Update only specific fields
+            existingEntity.setFullName(form.getFullName());
+            existingEntity.setPhoneNumber(form.getPhoneNumber());
+            existingEntity.setDateTestDriving(form.getDateTestDriving());
 
+            // Update car information
+            Optional<Car> optionalCar = carRepository.findByName(form.getCarName());
             if (optionalCar.isPresent()) {
-                existingCustomerTestDriving.setCar(optionalCar.get());
-                return customerTestDrivingRepository.save(existingCustomerTestDriving);
+                Car car = optionalCar.get();
+                existingEntity.setCar(car);
+
+                // Save the updated entity
+                return customerTestDrivingRepository.save(existingEntity);
             } else {
                 // Handle the case where Car is not found
                 return null;
             }
         } else {
+            // Handle the case when CustomerTestDriving with given id is not found
             return null;
         }
     }
+
 
     @Override
     public void deleteCustomerTestDriving(int id) {

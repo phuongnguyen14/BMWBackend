@@ -1,7 +1,8 @@
 package com.example.mockspring.controller;
 
-import com.example.mockspring.entity.Car;
 import com.example.mockspring.entity.CustomerTestDriving;
+import com.example.mockspring.form.customerTestDriving.CreateTestDrivingForm;
+import com.example.mockspring.form.customerTestDriving.UpdateTestDrivingForm;
 import com.example.mockspring.service.CustomerTestDrivingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/customerTestDriving")
 public class CustomerTestDrivingController {
@@ -19,80 +18,48 @@ public class CustomerTestDrivingController {
     @Autowired
     private CustomerTestDrivingService customerTestDrivingService;
 
-    @PostMapping("/create")
-    public ResponseEntity<CustomerTestDriving> createCustomerTestDriving(@RequestBody CustomerTestDriving customerTestDriving) {
-        CustomerTestDriving createdCustomerTestDriving = customerTestDrivingService.saveCustomerTestDriving(customerTestDriving);
-
-        if (createdCustomerTestDriving != null) {
-            // Set Car to contain only id and name
-            Car car = new Car();
-            car.setId(createdCustomerTestDriving.getCar().getId());
-            car.setName(createdCustomerTestDriving.getCar().getName());
-            createdCustomerTestDriving.setCar(car);
-
-            return new ResponseEntity<>(createdCustomerTestDriving, HttpStatus.CREATED);
-        } else {
-            // Handle the case where Car is not found or other validation fails
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-
-    @GetMapping("/{id}")
-    public ResponseEntity<CustomerTestDriving> getCustomerTestDriving(@PathVariable int id) {
-        CustomerTestDriving customerTestDriving = customerTestDrivingService.getCustomerTestDrivingById(id);
-
-        if (customerTestDriving != null) {
-            // Set Car to contain only id and name
-            Car car = new Car();
-            car.setId(customerTestDriving.getCar().getId());
-            car.setName(customerTestDriving.getCar().getName());
-            customerTestDriving.setCar(car);
-
-            return new ResponseEntity<>(customerTestDriving, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
     @GetMapping("/all")
     public ResponseEntity<Page<CustomerTestDriving>> getAllCustomerTestDrivings(Pageable pageable) {
-        Page<CustomerTestDriving> customerTestDrivingsPage = customerTestDrivingService.getAllCustomerTestDrivings(pageable);
-
-        // Set Car for each item to contain only id and name
-        for (CustomerTestDriving customerTestDriving : customerTestDrivingsPage.getContent()) {
-            Car car = new Car();
-            car.setId(customerTestDriving.getCar().getId());
-            car.setName(customerTestDriving.getCar().getName());
-            customerTestDriving.setCar(car);
-        }
-
-        return new ResponseEntity<>(customerTestDrivingsPage, HttpStatus.OK);
+        Page<CustomerTestDriving> customerTestDrivings = customerTestDrivingService.getAllCustomerTestDrivings(pageable);
+        return ResponseEntity.ok(customerTestDrivings);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CustomerTestDriving> updateCustomerTestDriving(
-            @PathVariable int id,
-            @RequestBody CustomerTestDriving updatedCustomerTestDriving) {
-
-        CustomerTestDriving updatedCustomerTestDrivingResult = customerTestDrivingService.updateCustomerTestDriving(id, updatedCustomerTestDriving);
-
-        if (updatedCustomerTestDrivingResult != null) {
-            // Set Car to contain only id and name
-            Car car = new Car();
-            car.setId(updatedCustomerTestDrivingResult.getCar().getId());
-            car.setName(updatedCustomerTestDrivingResult.getCar().getName());
-            updatedCustomerTestDrivingResult.setCar(car);
-
-            return new ResponseEntity<>(updatedCustomerTestDrivingResult, HttpStatus.OK);
+    @PostMapping("/create")
+    public ResponseEntity<CustomerTestDriving> createCustomerTestDriving(@RequestBody CreateTestDrivingForm form) {
+        CustomerTestDriving createdCustomerTestDriving = customerTestDrivingService.createCustomerTestDriving(form);
+        if (createdCustomerTestDriving != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdCustomerTestDriving);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            // Handle the case where Car is not found or other errors
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomerTestDriving> getCustomerTestDrivingById(@PathVariable int id) {
+        CustomerTestDriving customerTestDriving = customerTestDrivingService.getCustomerTestDrivingById(id);
+        if (customerTestDriving != null) {
+            return ResponseEntity.ok(customerTestDriving);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<CustomerTestDriving> updateCustomerTestDriving(@PathVariable int id, @RequestBody UpdateTestDrivingForm form) {
+        CustomerTestDriving updatedCustomerTestDriving = customerTestDrivingService.updateCustomerTestDriving(id, form);
+        if (updatedCustomerTestDriving != null) {
+            return ResponseEntity.ok(updatedCustomerTestDriving);
+        } else {
+            // Handle the case where CustomerTestDriving is not found or Car is not found or other errors
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCustomerTestDriving(@PathVariable int id) {
         customerTestDrivingService.deleteCustomerTestDriving(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,24 +1,17 @@
-package com.example.mockspring.dto;
+package com.example.mockspring.form.customerTestDriving;
 
-import com.example.mockspring.entity.Account;
-import com.example.mockspring.entity.Car;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
-
-@Data
 @Getter
 @Setter
 @NoArgsConstructor
-public class CustomerTestDrivingDto {
+public class UpdateTestDrivingForm {
     private int id;
-
     private String fullName;
+    private String carName;  // Thay vì carId, bạn có thể trực tiếp nhập tên xe
     private String phoneNumber;
     private Date dateTestDriving;
-    private String carName;
-
 }
