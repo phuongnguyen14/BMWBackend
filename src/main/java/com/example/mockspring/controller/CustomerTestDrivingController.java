@@ -24,7 +24,7 @@ public class CustomerTestDrivingController {
 //        Page<CustomerTestDriving> customerTestDrivings = customerTestDrivingService.getAllCustomerTestDrivings(pageable);
 //        return ResponseEntity.ok(customerTestDrivings);
 //    }
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<Page<CustomerTestDriving>> getAllCustomerTestDrivings(Pageable pageable,
                                                                                 @ModelAttribute TestDrivingFilterForm filterForm) {
         Page<CustomerTestDriving> customerTestDrivings = customerTestDrivingService.getAllCustomerTestDrivings(pageable, filterForm);

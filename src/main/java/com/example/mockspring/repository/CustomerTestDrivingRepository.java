@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CustomerTestDrivingRepository extends JpaRepository<CustomerTestDriving, Integer> {
 
-    Page<CustomerTestDriving> findByFullNameContainingIgnoreCase(String search, Pageable pageable);
+    Page<CustomerTestDriving> findByFullNameContainingIgnoreCaseOrPhoneNumberContaining (String fullName, String phoneNumber, Pageable pageable);
+
 }

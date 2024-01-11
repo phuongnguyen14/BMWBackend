@@ -29,18 +29,25 @@ public class CustomerTestDrivingServiceImpl implements CustomerTestDrivingServic
     @Autowired
     private ModelMapper modelMapper;
 
+
 //    @Override
-//    public Page<CustomerTestDriving> getAllCustomerTestDrivings(Pageable pageable) {
-//        return customerTestDrivingRepository.findAll(pageable);
+//    public Page<CustomerTestDriving> getAllCustomerTestDrivings(Pageable pageable, TestDrivingFilterForm filterForm) {
+//        if (filterForm != null && filterForm.getSearch() != null && !filterForm.getSearch().isEmpty()) {
+//            return customerTestDrivingRepository.findByFullNameContainingIgnoreCase(filterForm.getSearch(), pageable);
+//        } else {
+//            return customerTestDrivingRepository.findAll(pageable);
+//        }
 //    }
 @Override
 public Page<CustomerTestDriving> getAllCustomerTestDrivings(Pageable pageable, TestDrivingFilterForm filterForm) {
-    if (filterForm != null && filterForm.getSearch() != null && !filterForm.getSearch().isEmpty()) {
-        return customerTestDrivingRepository.findByFullNameContainingIgnoreCase(filterForm.getSearch(), pageable);
-    } else {
-        return customerTestDrivingRepository.findAll(pageable);
+    if (filterForm != null) {
+        if (filterForm.getSearch() != null && !filterForm.getSearch().isEmpty()) {
+            return customerTestDrivingRepository.findByFullNameContainingIgnoreCaseOrPhoneNumberContaining (filterForm.getSearch(), filterForm.getSearch(), pageable);
+        }
     }
+    return customerTestDrivingRepository.findAll(pageable);
 }
+
     @Override
     public CustomerTestDriving createCustomerTestDriving(CreateTestDrivingForm form) {
         Optional<Car> optionalCar = carRepository.findByName(form.getCarName());
