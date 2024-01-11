@@ -35,9 +35,9 @@ public class Account {
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<CustomerTestDriving> customerTestDrivingList;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+//    private List<CustomerTestDriving> customerTestDrivingList;
 
 
 }

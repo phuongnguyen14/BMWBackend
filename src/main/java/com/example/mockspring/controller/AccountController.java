@@ -55,7 +55,7 @@ public class AccountController {
     }
 
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> updateAccount(@PathVariable Integer id, @Valid @RequestBody Account updatedAccount) {
         Optional<Account> account = accountService.updateAccount(id, updatedAccount);
 

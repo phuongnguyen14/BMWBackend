@@ -15,10 +15,10 @@ import java.sql.Date;
 @NoArgsConstructor
 public class CustomerTestDrivingDto {
     private int id;
-    private Account account;
+//    private Account account;
     private String fullName;
     private String phoneNumber;
     private Date dateTestDriving;
     private Car car;
-    private String email;
+//    private String email;
 }
