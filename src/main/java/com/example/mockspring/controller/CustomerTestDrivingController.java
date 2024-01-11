@@ -2,6 +2,7 @@ package com.example.mockspring.controller;
 
 import com.example.mockspring.entity.CustomerTestDriving;
 import com.example.mockspring.form.customerTestDriving.CreateTestDrivingForm;
+import com.example.mockspring.form.customerTestDriving.TestDrivingFilterForm;
 import com.example.mockspring.form.customerTestDriving.UpdateTestDrivingForm;
 import com.example.mockspring.service.CustomerTestDrivingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,15 @@ public class CustomerTestDrivingController {
     @Autowired
     private CustomerTestDrivingService customerTestDrivingService;
 
+//        @GetMapping("/all")
+//    public ResponseEntity<Page<CustomerTestDriving>> getAllCustomerTestDrivings(Pageable pageable) {
+//        Page<CustomerTestDriving> customerTestDrivings = customerTestDrivingService.getAllCustomerTestDrivings(pageable);
+//        return ResponseEntity.ok(customerTestDrivings);
+//    }
     @GetMapping("/all")
-    public ResponseEntity<Page<CustomerTestDriving>> getAllCustomerTestDrivings(Pageable pageable) {
-        Page<CustomerTestDriving> customerTestDrivings = customerTestDrivingService.getAllCustomerTestDrivings(pageable);
+    public ResponseEntity<Page<CustomerTestDriving>> getAllCustomerTestDrivings(Pageable pageable,
+                                                                                @ModelAttribute TestDrivingFilterForm filterForm) {
+        Page<CustomerTestDriving> customerTestDrivings = customerTestDrivingService.getAllCustomerTestDrivings(pageable, filterForm);
         return ResponseEntity.ok(customerTestDrivings);
     }
 
@@ -51,7 +58,6 @@ public class CustomerTestDrivingController {
         if (updatedCustomerTestDriving != null) {
             return ResponseEntity.ok(updatedCustomerTestDriving);
         } else {
-            // Handle the case where CustomerTestDriving is not found or Car is not found or other errors
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }

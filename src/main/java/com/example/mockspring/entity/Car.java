@@ -34,23 +34,23 @@ public class Car {
     @Column(name = "yearOfManufacturer" , nullable = false)
     private int yearOfManufacturer;
 
-//    @Column(name = "seating_capacity" , nullable = false)
-//    private int seatingCapacity;
-//
-//    @Column(name = "car_fuel" ,length = 50, nullable = false)
-//    private String carFuel;
-//
-//    @Column(name = "placeOfManufacture" ,length = 50, nullable = false)
-//    private String placeOfManufacture;
-//
-//    @Column(name = "transmission" ,length = 50, nullable = false)
-//    private String transmission;
-//
-//    @Column(name = "`status`" ,length = 50, nullable = false)
-//    private String status;
+    @Column(name = "seating_capacity" , nullable = false)
+    private int seatingCapacity;
 
-//    @Column(name = "create_at")
-//    private Date createAt;
+    @Column(name = "car_fuel" ,length = 50, nullable = false)
+    private String carFuel;
+
+    @Column(name = "placeOfManufacture" ,length = 50, nullable = false)
+    private String placeOfManufacture;
+
+    @Column(name = "transmission" ,length = 50, nullable = false)
+    private String transmission;
+
+    @Column(name = "`status`" ,length = 50, nullable = false)
+    private String status;
+
+    @Column(name = "create_at")
+    private Date createAt;
 
     @ManyToOne
     @JoinColumn(name="category_id")

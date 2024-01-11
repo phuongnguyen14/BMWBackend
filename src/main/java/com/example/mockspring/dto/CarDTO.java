@@ -19,20 +19,20 @@ import java.sql.Date;
 public class CarDTO {
     private int id;
     private String name;
-//    private String image;
-//    private String price;
-//    private String information;
-//    private String detailInformation;
-//    private int yearOfManufacturer;
-//    private int seatingCapacity;
-//    private String carFuel;
-//    private String placeOfManufacture;
-//    private String transmission;
-//    private String status;
-//    @JsonFormat(pattern = "dd-MM-yyyy")
-//    @DateTimeFormat(pattern = "dd-MM-yyyy")
-//    @CreationTimestamp
-//    @UpdateTimestamp
-//    private Date createAt;
-//    private String carCategoryName;
+    private String image;
+    private String price;
+    private String information;
+    private String detailInformation;
+    private int yearOfManufacturer;
+    private int seatingCapacity;
+    private String carFuel;
+    private String placeOfManufacture;
+    private String transmission;
+    private String status;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @CreationTimestamp
+    @UpdateTimestamp
+    private Date createAt;
+    private String carCategoryName;
 }
