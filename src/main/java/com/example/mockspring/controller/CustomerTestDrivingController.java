@@ -37,15 +37,15 @@ public class CustomerTestDrivingController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<CustomerTestDriving> createCustomerTestDriving(@RequestBody CreateTestDrivingForm form) {
-        CustomerTestDriving createdCustomerTestDriving = customerTestDrivingService.createCustomerTestDriving(form);
+    public ResponseEntity<Map<String, Object>> createCustomerTestDriving(@RequestBody CreateTestDrivingForm form) {
+        Map<String, Object> createdCustomerTestDriving = customerTestDrivingService.createCustomerTestDriving(form);
         if (createdCustomerTestDriving != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(createdCustomerTestDriving);
         } else {
-            // Handle the case where Car is not found or other errors
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<CustomerTestDriving> getCustomerTestDrivingById(@PathVariable int id) {
@@ -58,8 +58,8 @@ public class CustomerTestDrivingController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<CustomerTestDriving> updateCustomerTestDriving(@PathVariable int id, @RequestBody UpdateTestDrivingForm form) {
-        CustomerTestDriving updatedCustomerTestDriving = customerTestDrivingService.updateCustomerTestDriving(id, form);
+    public ResponseEntity<Map<String, Object>> updateCustomerTestDriving(@PathVariable int id, @RequestBody UpdateTestDrivingForm form) {
+        Map<String, Object> updatedCustomerTestDriving = customerTestDrivingService.updateCustomerTestDriving(id, form);
         if (updatedCustomerTestDriving != null) {
             return ResponseEntity.ok(updatedCustomerTestDriving);
         } else {

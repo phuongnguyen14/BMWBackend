@@ -12,13 +12,13 @@ import java.util.Map;
 
 public interface CustomerTestDrivingService {
 
-    CustomerTestDriving createCustomerTestDriving(CreateTestDrivingForm form);
+    Map<String, Object> createCustomerTestDriving(CreateTestDrivingForm form);
 
     CustomerTestDriving getCustomerTestDrivingById(int id);
 
     Page<Map<String, Object>> getAllCustomerTestDrivings(Pageable pageable, TestDrivingFilterForm filterForm);
-    CustomerTestDriving updateCustomerTestDriving(int id, UpdateTestDrivingForm form);
 
+    Map<String, Object> updateCustomerTestDriving(int id, UpdateTestDrivingForm form);
 
     void deleteCustomerTestDriving(int id);
 }
