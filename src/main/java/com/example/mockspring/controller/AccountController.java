@@ -40,6 +40,7 @@ public class AccountController {
         return new ResponseEntity<>(createdAccount, HttpStatus.CREATED);
     }
 
+
     @GetMapping("/username/{username}")
     public ResponseEntity<?> getAccountByUsername(@PathVariable String username) {
         Optional<Account> account = accountService.findByUsername(username);

@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/customerTestDriving")
 public class CustomerTestDrivingController {
@@ -19,15 +21,18 @@ public class CustomerTestDrivingController {
     @Autowired
     private CustomerTestDrivingService customerTestDrivingService;
 
-//        @GetMapping("/all")
-//    public ResponseEntity<Page<CustomerTestDriving>> getAllCustomerTestDrivings(Pageable pageable) {
-//        Page<CustomerTestDriving> customerTestDrivings = customerTestDrivingService.getAllCustomerTestDrivings(pageable);
+
+//    @GetMapping
+//    public ResponseEntity<Page<CustomerTestDriving>> getAllCustomerTestDrivings(Pageable pageable,
+//                                                                                @ModelAttribute TestDrivingFilterForm filterForm) {
+//        Page<CustomerTestDriving> customerTestDrivings = customerTestDrivingService.getAllCustomerTestDrivings(pageable, filterForm);
 //        return ResponseEntity.ok(customerTestDrivings);
 //    }
+
     @GetMapping
-    public ResponseEntity<Page<CustomerTestDriving>> getAllCustomerTestDrivings(Pageable pageable,
+    public ResponseEntity<Page<Map<String, Object>>> getAllCustomerTestDrivings(Pageable pageable,
                                                                                 @ModelAttribute TestDrivingFilterForm filterForm) {
-        Page<CustomerTestDriving> customerTestDrivings = customerTestDrivingService.getAllCustomerTestDrivings(pageable, filterForm);
+        Page<Map<String, Object>> customerTestDrivings = customerTestDrivingService.getAllCustomerTestDrivings(pageable, filterForm);
         return ResponseEntity.ok(customerTestDrivings);
     }
 

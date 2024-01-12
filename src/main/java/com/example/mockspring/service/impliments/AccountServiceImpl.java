@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -40,8 +41,9 @@ public class AccountServiceImpl implements AccountService {
         }
     }
     @Override
-    public Account createAccount(Account account){
+    public Account createAccount(Account account) {
         account.setRole(Role.USER);
+        account.setCreateAt(LocalDateTime.now());
         return accountRepository.save(account);
     }
 

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CustomerTestDrivingService {
 
@@ -15,8 +16,7 @@ public interface CustomerTestDrivingService {
 
     CustomerTestDriving getCustomerTestDrivingById(int id);
 
-    Page<CustomerTestDriving> getAllCustomerTestDrivings(Pageable pageable, TestDrivingFilterForm filterForm);
-
+    Page<Map<String, Object>> getAllCustomerTestDrivings(Pageable pageable, TestDrivingFilterForm filterForm);
     CustomerTestDriving updateCustomerTestDriving(int id, UpdateTestDrivingForm form);
 
 

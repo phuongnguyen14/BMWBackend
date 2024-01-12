@@ -14,7 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -29,24 +31,47 @@ public class CustomerTestDrivingServiceImpl implements CustomerTestDrivingServic
     @Autowired
     private ModelMapper modelMapper;
 
-
 //    @Override
 //    public Page<CustomerTestDriving> getAllCustomerTestDrivings(Pageable pageable, TestDrivingFilterForm filterForm) {
-//        if (filterForm != null && filterForm.getSearch() != null && !filterForm.getSearch().isEmpty()) {
-//            return customerTestDrivingRepository.findByFullNameContainingIgnoreCase(filterForm.getSearch(), pageable);
-//        } else {
-//            return customerTestDrivingRepository.findAll(pageable);
+//        if (filterForm != null) {
+//            if (filterForm.getSearch() != null && !filterForm.getSearch().isEmpty()) {
+//                return customerTestDrivingRepository.findByFullNameContainingIgnoreCaseOrPhoneNumberContaining(filterForm.getSearch(), filterForm.getSearch(), pageable);
+//            }
 //        }
+//        return customerTestDrivingRepository.findAll(pageable);
 //    }
 @Override
-public Page<CustomerTestDriving> getAllCustomerTestDrivings(Pageable pageable, TestDrivingFilterForm filterForm) {
+public Page<Map<String, Object>> getAllCustomerTestDrivings(Pageable pageable, TestDrivingFilterForm filterForm) {
+    Page<CustomerTestDriving> result;
     if (filterForm != null) {
         if (filterForm.getSearch() != null && !filterForm.getSearch().isEmpty()) {
-            return customerTestDrivingRepository.findByFullNameContainingIgnoreCaseOrPhoneNumberContaining (filterForm.getSearch(), filterForm.getSearch(), pageable);
+            result = customerTestDrivingRepository.findByFullNameContainingIgnoreCaseOrPhoneNumberContaining(filterForm.getSearch(), filterForm.getSearch(), pageable);
+        } else {
+            result = customerTestDrivingRepository.findAll(pageable);
         }
+    } else {
+        result = customerTestDrivingRepository.findAll(pageable);
     }
-    return customerTestDrivingRepository.findAll(pageable);
+
+    return result.map(this::mapToResponse);
 }
+
+    private Map<String, Object> mapToResponse(CustomerTestDriving customerTestDriving) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", customerTestDriving.getId());
+        response.put("fullName", customerTestDriving.getFullName());
+        response.put("phoneNumber", customerTestDriving.getPhoneNumber());
+        response.put("dateTestDriving", customerTestDriving.getDateTestDriving());
+        response.put("car", mapCarToResponse(customerTestDriving.getCar()));
+        return response;
+    }
+
+    private Map<String, Object> mapCarToResponse(Car car) {
+        Map<String, Object> carResponse = new HashMap<>();
+        carResponse.put("name", car.getName());
+        return carResponse;
+    }
+
 
     @Override
     public CustomerTestDriving createCustomerTestDriving(CreateTestDrivingForm form) {
