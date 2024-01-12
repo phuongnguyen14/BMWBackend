@@ -21,12 +21,19 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    //    @GetMapping("/all")
+//    public ResponseEntity<Page<Account>> getAllAccounts(Pageable pageable) {
+//        Page<Account> accounts = accountService.getAll(pageable);
+//        return ResponseEntity.ok(accounts);
+//    }
     @GetMapping("/all")
-    public ResponseEntity<Page<Account>> getAllAccounts(Pageable pageable) {
-        Page<Account> accounts = accountService.getAll(pageable);
+    public ResponseEntity<Page<Account>> getAllAccounts(
+            Pageable pageable,
+            @RequestParam(name = "search", required = false) String search
+    ) {
+        Page<Account> accounts = accountService.getAll(pageable, search);
         return ResponseEntity.ok(accounts);
     }
-
     @PostMapping("/create")
     public ResponseEntity<Account> createAccount(@Valid @RequestBody Account account) {
         Account createdAccount = accountService.createAccount(account);

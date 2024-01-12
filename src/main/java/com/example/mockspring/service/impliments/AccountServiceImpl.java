@@ -4,10 +4,12 @@ import com.example.mockspring.entity.Account;
 import com.example.mockspring.entity.Role;
 import com.example.mockspring.repository.AccountRepository;
 import com.example.mockspring.service.AccountService;
+import com.example.mockspring.specification.AccountSpecification;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -24,11 +26,19 @@ public class AccountServiceImpl implements AccountService {
 
 
 
-    @Override
-    public Page<Account> getAll(Pageable pageable) {
-        return accountRepository.findAll(pageable);
-    }
+//    @Override
+//    public Page<Account> getAll(Pageable pageable) {
+//        return accountRepository.findAll(pageable);
+//    }
 
+    @Override
+    public Page<Account> getAll(Pageable pageable, String search) {
+        if (search != null && !search.isEmpty()) {
+            return accountRepository.findByUsernameContainingIgnoreCase(search, pageable);
+        } else {
+            return accountRepository.findAll(pageable);
+        }
+    }
     @Override
     public Account createAccount(Account account){
         account.setRole(Role.USER);

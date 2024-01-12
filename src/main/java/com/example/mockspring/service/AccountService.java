@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface AccountService {
 
-    Page<Account> getAll(Pageable pageable);
+    Page<Account> getAll(Pageable pageable, String search);
 
     Account createAccount(Account account);
 
