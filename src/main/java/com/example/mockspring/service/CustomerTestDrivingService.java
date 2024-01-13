@@ -14,8 +14,7 @@ public interface CustomerTestDrivingService {
 
     Map<String, Object> createCustomerTestDriving(CreateTestDrivingForm form);
 
-    CustomerTestDriving getCustomerTestDrivingById(int id);
-
+    Map<String, Object> getCustomerTestDrivingById(int id);
     Page<Map<String, Object>> getAllCustomerTestDrivings(Pageable pageable, TestDrivingFilterForm filterForm);
 
     Map<String, Object> updateCustomerTestDriving(int id, UpdateTestDrivingForm form);
