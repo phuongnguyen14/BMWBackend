@@ -34,6 +34,7 @@ public class AccountController {
         Page<Account> accounts = accountService.getAll(pageable, search);
         return ResponseEntity.ok(accounts);
     }
+
     @PostMapping("/create")
     public ResponseEntity<Account> createAccount(@Valid @RequestBody Account account) {
         Account createdAccount = accountService.createAccount(account);

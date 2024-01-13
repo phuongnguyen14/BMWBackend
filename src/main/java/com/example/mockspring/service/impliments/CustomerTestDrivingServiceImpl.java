@@ -108,15 +108,30 @@ public class CustomerTestDrivingServiceImpl implements CustomerTestDrivingServic
         }
     }
 
-    private Map<String, Object> mapToResponse(CustomerTestDriving customerTestDriving) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("id", customerTestDriving.getId());
-        response.put("fullName", customerTestDriving.getFullName());
-        response.put("phoneNumber", customerTestDriving.getPhoneNumber());
-        response.put("dateTestDriving", customerTestDriving.getDateTestDriving());
-        response.put("car", mapCarToResponse(customerTestDriving.getCar()));
-        return response;
-    }
+//    private Map<String, Object> mapToResponse(CustomerTestDriving customerTestDriving) {
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("id", customerTestDriving.getId());
+//        response.put("fullName", customerTestDriving.getFullName());
+//        response.put("phoneNumber", customerTestDriving.getPhoneNumber());
+//        response.put("dateTestDriving", customerTestDriving.getDateTestDriving());
+//        response.put("carName", mapCarToResponse(customerTestDriving.getCar()));
+//        return response;
+//    }
+//
+//    private Map<String, Object> mapCarToResponse(Car car) {
+//        Map<String, Object> carResponse = new HashMap<>();
+//        carResponse.put("name", car.getName());
+//        return carResponse;
+//    }
+private Map<String, Object> mapToResponse(CustomerTestDriving customerTestDriving) {
+    Map<String, Object> response = new HashMap<>();
+    response.put("id", customerTestDriving.getId());
+    response.put("fullName", customerTestDriving.getFullName());
+    response.put("phoneNumber", customerTestDriving.getPhoneNumber());
+    response.put("dateTestDriving", customerTestDriving.getDateTestDriving());
+    response.put("carName", customerTestDriving.getCar().getName()); // Thêm carName vào response
+    return response;
+}
 
     private Map<String, Object> mapCarToResponse(Car car) {
         Map<String, Object> carResponse = new HashMap<>();
